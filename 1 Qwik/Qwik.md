@@ -288,77 +288,65 @@ export const Counter = component$(() => {
 1. proxy created for state by useStore
 2. component created with subscription to state via proxy
 3. server serializes state and subscription (the subscription relationship between component and state) to html
-4. 
+4. button click handler closes over state and handling is latent until activated with a click
 
+i suggested that Misko's 'resume' or what the advanced section (which is currently blank btw) of Qwik docs call 'restore', is synonymous with hydration. i asked chad bot who said, "In this specific code snippet, restoration of the store proxy appears to be part of the hydration process."
 
-## Counter Example
+technically, "hydration" refers to attaching event handlers to SSR HTML and making the client interactive. In this case, instead of attaching handlers, they are activated (and otherwise latent). DOM event handler code is linked by symbols instead of attached by React.
 
-```
-export const Counter = component$(() => {  const store = useStore({ count: 0 });   return <button onClick$={() => store.count++}>{store.count}</button>;});
-```
-
-1. The server performs an initial render of the component. The server rendering includes creating the proxy represented by `store`.
-2. The initial render invokes the OnRender method, which has a reference to the `store` proxy. The rendering puts the proxy to "learn" mode. During the build-up of JSX, the proxy observes a read of the `count` property. Because the proxy is in "learn" mode, it records that the `Counter` has a subscription on the `store.count`.
-3. The server serializes the state of the application into HTML. This includes the `store` as well as subscription information which says that `Counter` is subscribed to `store.count`.
-4. In the browser, the user clicks the button. Because the click event handler closed over `store`, Qwik restores the store proxy. The proxy contains the application state (the count) and the subscription, which associates the `Counter` with `state.count`.
-5. The event handler increments the `store.count`. Because the `store` is a proxy, it notices the write and uses the subscription information to invalidate the `Counter`.
-6. After `requestAnimationFrame`, the `Counter` downloads the rendering function and re-runs the OnRender method.
-7. During the OnRender, the subscription list is cleared, and a new subscription list is built up by observing what reads the JSX building performs.
-
-## Unsubscribe example
-
-```
-export const ComplexCounter = component$(() => {  const store = useStore({ count: 0, visible: true });   return (    <>      <button onClick$={() => (store.visible = !store.visible)}>        {store.visible ? 'hide' : 'show'}      </button>      <button onClick$={() => store.count++}>increment</button>      {store.visible ? <p>{store.count}</p> : null}    </>  );});
-```
-
-This example is a more complicated counter.
-
-- It contains the `increment` button, which always increments `store.count`.
-- It contains a `show`/`hide` button which determines if the count is shown.
-
-1. On the initial render, the count is visible. Therefore the server creates a subscription that records that `ComplexCounter` needs to get re-rendered if either `store.count` or `store.visible` changes.
-2. If the user clicks on `hide`, the `ComplexCounter` rerenders. The re-rendering clears all of the subscriptions and records new ones. This time the JSX does not read `store.count`. Therefore, only `store.visible` gets added to the list of subscriptions.
-3. User clicking on `increment` will update `store.count`, but doing so will not cause the component to re-render. This is correct because the counter is not visible, so re-rendering would be a no-op.
-4. If the user clicks `show`, the component will re-render and this time the JSX will read both `store.visible` as well as `store.count`. The subscription list is once again updated.
-5. Now, clicking on `increment` updates the `store.count`. Because the count is visible, the `ComplexCounter` is subscribed to `store.count`.
-
-Notice how the set of subscriptions automatically updates as the component renders different branches of its JSX. The advantage of the proxy is that the subscriptions update automatically as the applications execute, and the system can always compute the smallest set of invalidated components.
-
-## [](https://qwik.builder.io/docs/concepts/reactivity/#deep-objects)Deep objects
-
-So far, the examples show the store (`useStore()`) was a simple object with primitive values.
-
-```
-export const MyComp = component$(() => {  const store = useStore({    person: { first: null, last: null },    location: null  });   store.location = {street: 'main st'};   return (    <section>      <p>{store.person.last}, {store.person.first}</p>      <p>{store.location.street}</p>    </section>  );})
-```
-
-In the above examples, Qwik will automatically wrap child objects `person` and `location` into a proxy and correctly create subscriptions on all deep properties.
-
-The wrapping behavior described above has one surprising side-effect. Writing and reading from a proxy auto wraps the object, which means that the identity of the object changes. This should normally not be an issue, but it is something that the developer should keep in mind.
-
-```
-export const MyComp = component$(() => {  const store = useStore({ person: null });  const person = { first: 'John', last: 'Smith' };  store.person = person; // store.person auto wraps object into proxy   if (store.person !== person) {    // The consequence of auto wrapping is that the object identity changes.    console.log('store auto-wrapped person into a proxy');  }});
-```
-
-## [](https://qwik.builder.io/docs/concepts/reactivity/#out-of-order-rendering)Out-of-order rendering
-
-Qwik components are rendered out of order. A component can be rendered without forcing a parent component to be rendered first or a child components to be rendered as a consequence of the component render. This is an important property of Qwik because it allows Qwik applications to only re-render components which have been invalidated due to a state change rather than re-rendering the whole component tree on a state change.
-
-When components are rendered, they need to have access to their props. Parent components create props. The props must be [serializable](https://qwik.builder.io/docs/concepts/resumable/#serialization) for the component to render independently from the parent.
-
-## [](https://qwik.builder.io/docs/concepts/reactivity/#invalidating-child-components)Invalidating child components
-
-When re-rendering a component, the child component's props either stay the same or are updated. A child component only invalidates if its props change.
-
-```
-export const Child = component$((props: { count: number }) => {  return <span>{props.count}</span>;}); export const MyApp = component$(() => {  const store = useStore({ a: 0, b: 0, c: 0 });   return (    <>      <button onClick$={() => store.a++}>a++</button>      <button onClick$={() => store.b++}>b++</button>      <button onClick$={() => store.c++}>c++</button>      {JSON.stringify(store)}       <Child count={store.a} />      <Child count={store.b} />    </>  );});
+```ts
+interface Calculator {
+  add(a: number, b: number): number;
+  subtract(a: number, b: number): number;
+}
+class BasicCalculator implements Calculator {
+  add(a: number, b: number): number {
+    return a + b;
+  }
+  subtract(a: number, b: number): number {
+    return a - b;
+  }
+}
+interface Notifier {
+  notify(method: string, args: number[], result: number): void;
+}
+class ConsoleNotifier implements Notifier {
+  notify(method: string, args: number[], result: number): void {
+    console.log(
+      `${
+        method.charAt(0).toUpperCase() + method.slice(1)
+      } method called with arguments: ${args.join(", ")}. Result: ${result}`
+    );
+  }
+}
+class CalculatorFactory {
+  static createProxiedCalculator(
+    calc: Calculator,
+    notifier: Notifier
+  ): Calculator {
+    return new Proxy(calc, {
+      get(target, property: keyof Calculator) {
+        if (typeof target[property] === "function") {
+          return function (...args: number[]) {
+            const result = target[property](...args);
+            notifier.notify(property, args, result);
+            return result;
+          };
+        }
+        return target[property];
+      },
+    });
+  }
+}
+const basicCalculator = new BasicCalculator();
+const consoleNotifier = new ConsoleNotifier();
+const proxiedCalculator = CalculatorFactory.createProxiedCalculator(
+  basicCalculator,
+  consoleNotifier
+);
+proxiedCalculator.add(5, 3);
+proxiedCalculator.subtract(5, 3);
 ```
 
-In the above example, there are two `<Child/>` components.
+the proxy works by taking the component$ and store.count into consideration and calling render on the component$ once the state (store.count) is updated (in the get trap or a set trap)
 
-- Every time a button is clicked, one of the three counters is incremented. A change of counter state will cause the `MyApp` component to re-render on each click.
-- If `store.c` has been incremented, none of the child components get re-rendered. (And therefore, their code does not get lazy-loaded)
-- If `store.a` has been incremented, then only `<Child count={store.a}/>` will re-render.
-- If `store.b` has been incremented, then only `<Child count={store.b}/>` will re-render.
-
-Notice that the child components only re-render when their props change. This is an important property of Qwik applications as it significantly limits the amount of re-rendering the application must do on some state change. While less re-rendering has performance benefits, the real benefit is that large portions of the applications do not get downloaded if they don't need to be re-rendered.

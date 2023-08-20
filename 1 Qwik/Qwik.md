@@ -350,3 +350,24 @@ proxiedCalculator.subtract(5, 3);
 
 the proxy works by taking the component$ and store.count into consideration and calling render on the component$ once the state (store.count) is updated (in the get trap or a set trap)
 
+- After `requestAnimationFrame`, the `Counter` downloads the rendering function and re-runs the OnRender method.
+- During the OnRender, the subscription list is cleared, and a new subscription list is built up by observing what reads the JSX building performs.
+
+## Unsubscribe example
+
+```ts
+export const ComplexCounter = component$(() => {  
+	const store = useStore({ count: 0, visible: true });   
+	return (    
+		<>      
+			<button onClick$={() => (store.visible = !store.visible)}>       {store.visible ? 'hide' : 'show'}      
+			</button>      
+			<button onClick$={() => store.count++}>increment</button>      {store.visible ? <p>{store.count}</p> : null}    
+		</>  
+	);
+});
+```
+
+the Qwik serializes interactivity in HTML with symbols linked to service workers (Qwik City) which are hydrated or animated or brought to life or resumed or restored (lazarus come out) when clicked (lazily). Behind the scenes, a Proxy (js data structure) traps the call to inc & manages a subscription relationship to the component$ being refreshed. and it calls its refresh method. bada boom bada bing.
+
+****

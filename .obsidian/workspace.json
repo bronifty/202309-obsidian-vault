@@ -4,16 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "2532ebbce98ab05e",
+        "id": "b0cf3289ca446461",
         "type": "tabs",
         "children": [
           {
-            "id": "742950f90f356994",
+            "id": "62949a5a14916ae9",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "1 Qwik/Qwik.md",
+                "file": "1 Qwik/Qwik Lifecycle.md",
                 "mode": "source",
                 "source": false
               }
@@ -69,7 +69,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "71f1924d87ef619a",
@@ -85,7 +86,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "1 Qwik/Qwik.md",
+                "file": "1 Qwik/Qwik Lifecycle.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +103,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "1 Qwik/Qwik.md",
+                "file": "1 Qwik/Qwik Lifecycle.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +126,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "1 Qwik/Qwik.md"
+                "file": "1 Qwik/Qwik Lifecycle.md"
               }
             }
           }
@@ -146,10 +147,23 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "742950f90f356994",
+  "active": "62949a5a14916ae9",
   "lastOpenFiles": [
-    "1 Qwik/Qwik Reactivity.md",
     "1 Qwik/Qwik.md",
-    "5 JS/Utils.md"
+    "1 Qwik/Qwik Lifecycle.md",
+    "3 ArdanLabs/2 Kubernetes/wasmcloud-cosmonic-kubernetes-topology.png",
+    "3 ArdanLabs/2 Kubernetes/trucking.md",
+    "3 CDKTF/CDKTF.md",
+    "4 HashiCorp/Nomad/Nomad.md",
+    "4 Supabase/Supabase Functions.md",
+    "5 cms/sanity.md",
+    "5 JS/Utils.md",
+    "6 State Management/State Management.md",
+    "1 Clean Code/Dependency Injection the Best Pattern by Code Aesthetic.md",
+    "1 Clean Code/singleton.jpeg",
+    "1 Clean Code/Gang of 4 TL;DR.md",
+    "1 Clean Code/flyweight.png",
+    "1 Clean Code/composite v strategy.png",
+    "1 Qwik/Qwik Reactivity.md"
   ]
 }

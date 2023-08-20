@@ -33,3 +33,12 @@ export default component$(() => {
 });
 const delay = (time: number) => new Promise((res) => setTimeout(res, time));
 ```
+
+In this example
+
+- The `useTask$()` computes the fibonacci number one entry per 100 ms. So 40 entries take 4 seconds to render.
+    - The `useTask$()` executes on the server as part of the SSR (the result may be cached in CDN.)
+    - Because the `useTask$()` blocks rendering, the rendered HTML page takes 4 seconds to render.
+- Because this task has no `track()` it will never rerun, making it effectively an initialization code.
+    - Because this component only renders on the server, the `useTask$()` will never run on the browser. (code will never download to browser.)
+

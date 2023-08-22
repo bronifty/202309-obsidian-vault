@@ -85,7 +85,214 @@ pizzaStore.addEventListener("pizzaDelivery", (e) => console.log(e.detail.type));
 pizzaStore.dispatchEvent(pizzaEvent);
 ```
 
-4 
+4 EventTarget (might be good to introduce the concept)
+EventTarget interface methods
+[`EventTarget.addEventListener()`](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener)
+[`EventTarget.removeEventListener()`](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/removeEventListener)
+[`EventTarget.dispatchEvent()`](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/dispatchEvent)
 ```ts
+class PizzaStore extends EventTarget {
 
+constructor() {
+
+super();
+
+}
+
+addPizza(flavor) {
+
+// fire event directly on the class
+
+this.dispatchEvent(new CustomEvent("pizzaAdded", {
+
+detail: {
+
+pizza: flavor,
+
+},
+
+}));
+
+}
+
+}
+
+  
+
+const Pizzas = new PizzaStore();
+
+Pizzas.addEventListener("pizzaAdded", (e) => console.log('Added Pizza', e.detail));
+
+Pizzas.addPizza("supreme");
+```
+
+5 observer works
+```ts
+class Subject {
+  constructor() {
+    this.observers = [];
+  }
+  addObserver(observer) {
+    this.observers.push(observer);
+  }
+  removeObserver(observer) {
+    const index = this.observers.indexOf(observer);
+    if (index > -1) {
+      this.observers.splice(index, 1);
+    }
+  }
+  notify(data) {
+    this.observers.forEach(observer => observer.update(data));
+  }
+}
+
+class Observer {
+  update(data) {
+    console.log(data);
+  }
+}
+
+const subject = new Subject();
+const observer = new Observer();
+
+subject.addObserver(observer);
+subject.notify('Everyone gets pizzas!');
+```
+6 proxy works
+```ts
+const handler = {
+  get: function(target, property) {
+    console.log(`Getting property ${property}`);
+    return target[property];
+  },
+  set: function(target, property, value) {
+    console.log(`Setting property ${property} to ${value}`);
+    target[property] = value;
+    return true; // indicates that the setting has been done successfully
+  }
+};
+
+const pizza = { name: 'Margherita', toppings: ['tomato sauce', 'mozzarella'] };
+const proxiedPizza = new Proxy(pizza, handler);
+
+console.log(proxiedPizza.name); // Outputs "Getting property name" and "Margherita"
+proxiedPizza.name = 'Pepperoni'; // Outputs "Setting property name to Pepperoni"
+```
+
+7 object define property
+
+```ts
+const pizza = {
+
+_name: 'Margherita', // Internal property
+
+};
+
+  
+
+Object.defineProperty(pizza, 'name', {
+
+get: function() {
+
+console.log(`Getting property name`);
+
+return this._name;
+
+},
+
+set: function(value) {
+
+console.log(`Setting property name to ${value}`);
+
+this._name = value;
+
+}
+
+});
+
+  
+
+// Example usage:
+
+console.log(pizza.name); // Outputs "Getting property name" and "Margherita"
+
+pizza.name = 'Pepperoni'; // Outputs "Setting property name to Pepperoni"
+
+console.log(pizza.name); // Outputs "Getting property name" and "Margherita"
+```
+
+
+- async observers - add example init and run
+```ts
+class AsyncData {
+
+constructor(initialData) {
+
+this.data = initialData;
+
+this.subscribers = [];
+
+}
+
+subscribe(callback) {
+
+if (typeof callback !== 'function') {
+
+throw new Error('Callback must be a function');
+
+}
+
+this.subscribers.push(callback);
+
+}
+
+async set(key, value) {
+
+this.data[key] = value;
+
+const updates = this.subscribers.map(async (callback) => {
+
+await callback(key, value);
+
+});
+
+await Promise.allSettled(updates);
+
+}
+
+}
+
+const callback1 = async (key, value) => {
+
+console.log(`Callback 1: Key ${key} updated to ${value}`);
+
+};
+
+const callback2 = async (key, value) => {
+
+console.log(`Callback 2: Key ${key} updated to ${value}`);
+
+};
+
+const asyncData = new AsyncData({ pizza: 'Margherita', drinks: 'Soda' });
+
+asyncData.subscribe(callback1);
+
+asyncData.subscribe(callback2);
+
+console.log('Initial data:', asyncData.data);
+
+asyncData.set('pizza', 'Pepperoni')
+
+// asyncData.set('pizza', 'Pepperoni').then(() => {
+
+// console.log('Updated data:', asyncData.data);
+
+// });
+
+// asyncData.set('drinks', 'Water').then(() => {
+
+// console.log('Updated data:', asyncData.data);
+
+// });
 ```

@@ -284,6 +284,12 @@ console.log('Initial data:', asyncData.data);
 
 asyncData.set('pizza', 'Pepperoni')
 
+asyncData.set('pizza', 'Pineapple Bacon')
+
+console.log(' data:', asyncData.data);
+
+  
+
 // asyncData.set('pizza', 'Pepperoni').then(() => {
 
 // console.log('Updated data:', asyncData.data);

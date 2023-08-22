@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "1 Qwik/Qwik Lifecycle.md",
+                "file": "7 Marc Grabanski/Patterns for Reactivity with Modern Vanilla JS.md",
                 "mode": "source",
                 "source": false
               }
@@ -86,7 +86,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "1 Qwik/Qwik Lifecycle.md",
+                "file": "7 Marc Grabanski/Patterns for Reactivity with Modern Vanilla JS.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -103,7 +103,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "1 Qwik/Qwik Lifecycle.md",
+                "file": "7 Marc Grabanski/Patterns for Reactivity with Modern Vanilla JS.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -126,7 +126,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "1 Qwik/Qwik Lifecycle.md"
+                "file": "7 Marc Grabanski/Patterns for Reactivity with Modern Vanilla JS.md"
               }
             }
           }
@@ -149,8 +149,10 @@
   },
   "active": "62949a5a14916ae9",
   "lastOpenFiles": [
-    "1 Qwik/Qwik.md",
     "1 Qwik/Qwik Lifecycle.md",
+    "7 Marc Grabanski/Patterns for Reactivity with Modern Vanilla JS.md",
+    "7 Marc Grabanski",
+    "1 Qwik/Qwik.md",
     "3 ArdanLabs/2 Kubernetes/wasmcloud-cosmonic-kubernetes-topology.png",
     "3 ArdanLabs/2 Kubernetes/trucking.md",
     "3 CDKTF/CDKTF.md",

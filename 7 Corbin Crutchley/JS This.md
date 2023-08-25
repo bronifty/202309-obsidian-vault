@@ -165,8 +165,132 @@ const cup2 = new Cup();
 const bowl2 = new Bowl();
 bowl2.consume = cup2.consume;
 bowl2.consume(); // You drink the water . Hydrating!
-
-
 ```
 
+- this doesn't work because the button's this context when it's called is the html dom, which is undefined so an error is thrown this.updateText is not a function.
+- the workaround is to bind the addCountListeners to this or use an arrow function in add whose this is always the class object
+
+```ts
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class MainButtonElement {
+        count = 0;
+        constructor(parent) {
+          this.el = document.createElement("button");
+          this.updateText();
+          this.addCountListeners();
+          parent.append(this.el);
+        }
+        updateText() {
+          this.el.innerText = `Add: ${this.count}`;
+        }
+        add() {
+          console.log(this);
+          this.count++;
+          this.updateText();
+        }
+        addCountListeners() {
+          this.el.addEventListener("click", this.add);
+        }
+        destroy() {
+          this.el.remove();
+          this.el.removeEventListener("click", this.add);
+        }
+      }
+      new MainButtonElement(document.body);
+    </script>
+  </body>
+</html>
+
+```
+- bind the add function to this because bind is not referentially stable, which is what removeEventListener requires
+```ts
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // This code doesn't work, we'll explore why soon
+      class MainButtonElement {
+        count = 0;
+        constructor(parent) {
+          this.el = document.createElement("button");
+          this.updateText();
+          this.addCountListeners();
+          parent.append(this.el);
+        }
+        updateText() {
+          this.el.innerText = `Add: ${this.count}`;
+        }
+        add = function () {
+          console.log(this);
+          this.count++;
+          this.updateText();
+        }.bind(this);
+        addCountListeners() {
+          this.el.addEventListener("click", this.add);
+        }
+        destroy() {
+          this.el.remove();
+          this.el.removeEventListener("click", this.add);
+        }
+      }
+      new MainButtonElement(document.body);
+    </script>
+  </body>
+</html>
+```
+
+- alternatively, use an arrow function to bind add to lexical scope (the object where it's defined)
+```ts
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // This code doesn't work, we'll explore why soon
+      class MainButtonElement {
+        count = 0;
+        constructor(parent) {
+          this.el = document.createElement("button");
+          this.updateText();
+          this.addCountListeners();
+          parent.append(this.el);
+        }
+        updateText() {
+          this.el.innerText = `Add: ${this.count}`;
+        }
+        add = () => {
+          console.log(this);
+          this.count++;
+          this.updateText();
+        };
+        addCountListeners() {
+          this.el.addEventListener("click", this.add);
+        }
+        destroy() {
+          this.el.remove();
+          this.el.removeEventListener("click", this.add);
+        }
+      }
+      new MainButtonElement(document.body);
+    </script>
+  </body>
+</html>
+```
 

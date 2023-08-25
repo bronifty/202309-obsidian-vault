@@ -77,3 +77,35 @@ cup.consume = bowl.consume.bind(bowl); // binds the bowl's consume method to the
 cup.consume(); // You eat the  chili . Spicy!
 ```
 
+### Bind Call and Apply
+```ts
+// bind works by binding the definition at assignment time
+cup.consume = bowl.consume.bind(bowl); // binds the bowl's consume method to the bowl's this context
+cup.consume(); // You eat the  chili . Spicy!
+
+// call and apply work by binding the definition at call time (apply takes an array after this whereas call takes individual csv)
+cup.consume.call(bowl); // You eat the  chili . Spicy!
+cup.consume.apply(bowl); // You eat the  chili . Spicy!
+```
+
+### Arrow Function This Lexical Scope
+```ts
+class Cup {
+  contents = "water";
+  consume = () => {
+    console.log("You drink the ", this.contents, ". Hydrating!");
+  };
+}
+class Bowl {
+  contents = "chili";
+  // arrow function this is lexical scope (where its defined ie context is the Bowl class)
+  consume = () => {
+    console.log("You eat the ", this.contents, ". Spicy!");
+  };
+}
+const cup = new Cup();
+const bowl = new Bowl();
+cup.consume = bowl.consume; // cup's consume method is reassigned to bowl's consume method which was defined in lexical scope as an arrow function, meaning its this will always be the context where it was defined (bowl); it will never shift to the caller (cup)
+cup.consume(); // You eat the chili. Spicy!
+```
+

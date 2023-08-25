@@ -1,5 +1,12 @@
 [unicorn utterances js this](https://unicorn-utterances.com/posts/javascript-bind-usage#bind)
 
+Summary:
+- only regular functions (not arrow) & classes can have their own 'this' context
+- in object.method() syntax 'this' refers to the caller (object)
+- an arrow function can refer to 'this' (in strict mode es6) only if it's wrapped in a class / object / regular function closure
+- with that in mind, arrow function this refers to how it was defined (its provenance) whereas regular function object and class this refers to who is calling it (where it is now)
+
+
 ```ts
 class Car {
     wheels = 4;
@@ -108,4 +115,30 @@ const bowl = new Bowl();
 cup.consume = bowl.consume; // cup's consume method is reassigned to bowl's consume method which was defined in lexical scope as an arrow function, meaning its this will always be the context where it was defined (bowl); it will never shift to the caller (cup)
 cup.consume(); // You eat the chili. Spicy!
 ```
+
+- even bind can't change the context of this with an arrow function definition because it's lexically scoped (scoped to where it's defined)
+```ts
+class Cup {
+  contents = "water";
+  consume = () => {
+    console.log("You drink the ", this.contents, ". Hydrating!");
+  };
+}
+class Bowl {
+  contents = "chili";
+  // arrow function this is lexical scope (where its defined ie context is the Bowl class)
+  consume = () => {
+    console.log("You eat the ", this.contents, ". Spicy!");
+  };
+}
+const cup = new Cup();
+const bowl = new Bowl();
+cup.consume = bowl.consume; // cup's consume method is reassigned to bowl's consume method which was defined in lexical scope as an arrow function, meaning its this will always be the context where it was defined (bowl); it will never shift to the caller (cup)
+cup.consume(); // You eat the chili. Spicy!
+cup.consume = bowl.consume.bind(cup); // doesn't matter because consume is lexically scoped
+cup.consume(); // You eat the chili. Spicy!
+// Note: cup.consume = bowl.consume is the same as saying cup.consume = bowl.consume.bind(cup) if it is not an arrow function because the caller (cup) is the context whether you bind it or run it dynamically
+```
+
+
 

@@ -31,3 +31,49 @@ console.log(fordCar.gasTank); // 10.5
 ```
 
 ****
+
+```ts
+class Cup {
+  contents = "water";
+  consume() {
+    console.log("You drink the ", this.contents, ". Hydrating!");
+  }
+}
+class Bowl {
+  contents = "chili";
+  consume() {
+    console.log("You eat the ", this.contents, ". Spicy!");
+  }
+}
+const cup = new Cup();
+const bowl = new Bowl();
+// cup.consume();
+// bowl.consume();
+cup.consume = bowl.consume; // copies the bowl's static method, but not its this context, so bowl consume called on cup's this context 
+cup.consume(); // You eat the water Spicy
+
+```
+
+```ts
+class Cup {
+  contents = "water";
+  consume() {
+    console.log("You drink the ", this.contents, ". Hydrating!");
+  }
+}
+class Bowl {
+  contents = "chili";
+  consume() {
+    console.log("You eat the ", this.contents, ". Spicy!");
+  }
+}
+const cup = new Cup();
+const bowl = new Bowl();
+// cup.consume();
+// bowl.consume();
+cup.consume = bowl.consume;
+cup.consume();
+cup.consume = bowl.consume.bind(bowl); // binds the bowl's consume method to the bowl's this context
+cup.consume(); // You eat the  chili . Spicy!
+```
+

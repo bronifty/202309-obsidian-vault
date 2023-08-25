@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "7 Marc Grabanski/Patterns for Reactivity with Modern Vanilla JS.md",
+                "file": "7 Corbin Crutchley/JS This.md",
                 "mode": "source",
                 "source": false
               }
@@ -86,7 +86,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "7 Marc Grabanski/Patterns for Reactivity with Modern Vanilla JS.md",
+                "file": "7 Corbin Crutchley/JS This.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -103,7 +103,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "7 Marc Grabanski/Patterns for Reactivity with Modern Vanilla JS.md",
+                "file": "7 Corbin Crutchley/JS This.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -126,7 +126,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "7 Marc Grabanski/Patterns for Reactivity with Modern Vanilla JS.md"
+                "file": "7 Corbin Crutchley/JS This.md"
               }
             }
           }
@@ -149,8 +149,13 @@
   },
   "active": "62949a5a14916ae9",
   "lastOpenFiles": [
-    "1 Qwik/Qwik Lifecycle.md",
+    "6 Reactivity & State Management/lit-html.md",
+    "7 Corbin Crutchley/JS This.md",
+    "7 Corbin Crutchley",
+    "6 Reactivity & State Management/State Management.md",
+    "1 OAUTH2/Nuts and Bolts of OAUTH2.md",
     "7 Marc Grabanski/Patterns for Reactivity with Modern Vanilla JS.md",
+    "1 Qwik/Qwik Lifecycle.md",
     "7 Marc Grabanski",
     "1 Qwik/Qwik.md",
     "3 ArdanLabs/2 Kubernetes/wasmcloud-cosmonic-kubernetes-topology.png",
@@ -160,7 +165,6 @@
     "4 Supabase/Supabase Functions.md",
     "5 cms/sanity.md",
     "5 JS/Utils.md",
-    "6 State Management/State Management.md",
     "1 Clean Code/Dependency Injection the Best Pattern by Code Aesthetic.md",
     "1 Clean Code/singleton.jpeg",
     "1 Clean Code/Gang of 4 TL;DR.md",

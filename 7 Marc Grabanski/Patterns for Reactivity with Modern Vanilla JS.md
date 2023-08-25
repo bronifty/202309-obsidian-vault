@@ -302,3 +302,270 @@ console.log(' data:', asyncData.data);
 
 // });
 ```
+
+- observables works
+	- notes: observable is a producer of data that can be observed by an observer, which is the reactor to data inputs or what makes the observable reactive
+```ts
+interface IObserver<T> {
+
+next(value: T): void;
+
+error(err: any): void;
+
+complete(): void;
+
+}
+
+class Observable<T> {
+
+private producer: (observer: IObserver<T>) => (() => void);
+
+  
+
+constructor(producer: (observer: IObserver<T>) => (() => void)) {
+
+this.producer = producer;
+
+}
+
+subscribe(observer: IObserver<T>) {
+
+if (typeof observer !== 'object' || observer === null) {
+
+throw new Error('Observer must be an object with next, error, and complete methods');
+
+}
+
+if (typeof observer.next !== 'function') {
+
+throw new Error('Observer must have a next method');
+
+}
+
+if (typeof observer.error !== 'function') {
+
+throw new Error('Observer must have an error method');
+
+}
+
+if (typeof observer.complete !== 'function') {
+
+throw new Error('Observer must have a complete method');
+
+}
+
+const unsubscribe = this.producer(observer);
+
+return {
+
+unsubscribe: () => {
+
+if (unsubscribe && typeof unsubscribe === 'function') {
+
+unsubscribe();
+
+}
+
+},
+
+};
+
+}
+
+}
+
+  
+
+// Example usage
+
+const producer = (observer: IObserver<string>) => {
+
+observer.next('Pepperoni Pizza');
+
+observer.next('Margherita Pizza');
+
+observer.next('Hawaiian Pizza');
+
+observer.complete();
+
+return () => console.log('Unsubscribed');
+
+};
+
+const observable = new Observable<string>(producer);
+
+const observer: IObserver<string> = {
+
+next: (value) => console.log('Received:', value),
+
+error: (error) => console.log('Error:', error),
+
+complete: () => console.log('Complete!'),
+
+};
+
+const subscription = observable.subscribe(observer);
+```
+
+- clean code version of observable
+```ts
+interface IObserver {
+
+next(value: string): void;
+
+error(err: any): void;
+
+complete(): void;
+
+}
+
+interface IProducer {
+
+produce(observer: IObserver): () => void;
+
+}
+
+interface IObservable {
+
+subscribe(): { unsubscribe: () => void };
+
+}
+
+class PizzaObserver implements IObserver {
+
+next(value: string) {
+
+console.log("Pizza:", value);
+
+}
+
+error(err: any) {
+
+console.log("Pizza Error:", err);
+
+}
+
+complete() {
+
+console.log("Pizza Complete!");
+
+}
+
+}
+
+class DrinkObserver implements IObserver {
+
+next(value: string) {
+
+console.log("Drink:", value);
+
+}
+
+error(err: any) {
+
+console.log("Drink Error:", err);
+
+}
+
+complete() {
+
+console.log("Drink Complete!");
+
+}
+
+}
+
+class PizzaProducer implements IProducer {
+
+produce(observer: IObserver) {
+
+observer.next("Pepperoni Pizza");
+
+observer.next("Margherita Pizza");
+
+observer.next("Hawaiian Pizza");
+
+observer.complete();
+
+return () => console.log("Pizza Unsubscribed");
+
+}
+
+}
+
+class DrinkProducer implements IProducer {
+
+produce(observer: IObserver) {
+
+observer.next("Soda");
+
+observer.next("Water");
+
+observer.next("Juice");
+
+observer.complete();
+
+return () => console.log("Drink Unsubscribed");
+
+}
+
+}
+
+class Observable implements IObservable {
+
+private observer: IObserver;
+
+private producer: IProducer;
+
+constructor(observer: IObserver, producer: IProducer) {
+
+this.observer = observer;
+
+this.producer = producer;
+
+}
+
+subscribe() {
+
+const unsubscribe = this.producer.produce(this.observer);
+
+return {
+
+unsubscribe: () => {
+
+if (unsubscribe && typeof unsubscribe === "function") {
+
+unsubscribe();
+
+}
+
+},
+
+};
+
+}
+
+}
+
+async function main() {
+
+const pizzaObserver = new PizzaObserver();
+
+const drinkObserver = new DrinkObserver();
+
+const pizzaProducer = new PizzaProducer();
+
+const drinkProducer = new DrinkProducer();
+
+const pizzaObservable = new Observable(pizzaObserver, pizzaProducer);
+
+const drinkObservable = new Observable(drinkObserver, drinkProducer);
+
+pizzaObservable.subscribe();
+
+drinkObservable.subscribe();
+
+}
+
+main();
+```

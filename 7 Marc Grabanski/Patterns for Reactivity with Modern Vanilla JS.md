@@ -590,3 +590,133 @@ main();
     document.querySelectorAll(".MediaItem").forEach((el) => {
       observer.observe(el);
     });```
+
+### Web Animations API
+- animate the element on click with keyfames
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      nav {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        background-color: #f44336;
+        padding: 10px 0;
+        text-align: center;
+        align-items: center;
+      }
+      nav a {
+        color: white;
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: bold;
+      }
+      nav a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <nav></nav>
+    <main></main>
+    <div id="animatedElement" style="width: 100px; height: 100px"></div>
+    <script type="module">
+      import { html, render } from "https://esm.sh/lit-html@2.8.0";
+
+      const pizzas = [
+        { name: "Margherita", toppings: ["Tomato Sauce", "Mozzarella"] },
+        {
+          name: "Pepperoni",
+          toppings: ["Tomato Sauce", "Mozzarella", "Pepperoni"],
+        },
+        // Add more pizzas here...
+      ];
+
+      const navTemplate = () => html`
+        <nav>
+          <a href="#" @click=${renderHome}>Home</a>
+          <a href="#" @click=${renderPizzas}>Pizzas</a>
+        </nav>
+      `;
+
+      const homeTemplate = () => html`
+        <div>
+          <h1>Welcome to Our Pizza Restaurant!</h1>
+          <p>Experience the best pizzas in town.</p>
+        </div>
+      `;
+
+      const pizzasTemplate = () => html`
+        <div>
+          <h1>Our Pizzas</h1>
+          <ul>
+            ${pizzas.map(
+              (pizza) =>
+                html`<li>${pizza.name} - ${pizza.toppings.join(", ")}</li>`
+            )}
+          </ul>
+        </div>
+      `;
+
+      function renderHome() {
+        render(homeTemplate(), document.querySelector("main"));
+      }
+
+      function renderPizzas() {
+        render(pizzasTemplate(), document.querySelector("main"));
+      }
+
+      render(navTemplate(), document.querySelector("nav"));
+      renderHome(); // Render the home page by default
+    </script>
+    <script>
+      const el = document.getElementById("animatedElement");
+
+      // Define the animation properties
+      const animation = el.animate(
+        [
+          // Keyframes
+          {
+            transform: "scale(1)",
+            backgroundColor: "blue",
+            left: "50px",
+            top: "50px",
+          },
+          {
+            transform: "scale(1.5)",
+            backgroundColor: "red",
+            left: "200px",
+            top: "200px",
+          },
+        ],
+        {
+          // Timing options
+          duration: 1000,
+          fill: "forwards",
+        }
+      );
+
+      // Set the animation's playback rate to 0 to pause it
+      animation.playbackRate = 0;
+
+      // Add a click event listener to the element
+      el.addEventListener("click", () => {
+        // If the animation is paused, play it
+        if (animation.playbackRate === 0) {
+          animation.playbackRate = 1;
+        } else {
+          // If the animation is playing, reverse it
+          animation.reverse();
+        }
+      });
+    </script>
+  </body>
+</html>
+
+<!-- 
+fetcher is a component scoped ajax utility which can both pitch and catch requests without page transitions; it functions similar to the component hooks use[Loader/Action]Data for [re-]initialization & optimistic ui -->
+```

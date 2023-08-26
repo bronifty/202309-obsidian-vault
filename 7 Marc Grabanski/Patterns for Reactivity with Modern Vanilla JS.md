@@ -569,3 +569,24 @@ drinkObservable.subscribe();
 
 main();
 ```
+
+
+### MutationObserver
+- for chrome extensions watching for the page dom elements to update (add, update, remove) and fire event to the app to respond (eg if a phone number comes onto the page, convert it to a calleable phone)
+- it's used for when you don't have control over or a 3rd party has control over the dom and can update the dom outside the control of your app and your app needs to respond
+
+### IntersectionObserver
+- window listens for in view and fires an event, which you can use to trigger an update
+```ts
+// when entry intersecting, add a class to the target
+  const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("animate-in");
+        }
+      });
+    });
+
+    document.querySelectorAll(".MediaItem").forEach((el) => {
+      observer.observe(el);
+    });```

@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "3 ArdanLabs/Ultimate Go/Ultimate Go 2.md",
+                "file": "3 ArdanLabs/Ultimate Go/Ultimate Go 3.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "3 ArdanLabs/Ultimate Go/Ultimate Go 2.md",
+                "file": "3 ArdanLabs/Ultimate Go/Ultimate Go 3.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "3 ArdanLabs/Ultimate Go/Ultimate Go 2.md",
+                "file": "3 ArdanLabs/Ultimate Go/Ultimate Go 3.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "3 ArdanLabs/Ultimate Go/Ultimate Go 2.md"
+                "file": "3 ArdanLabs/Ultimate Go/Ultimate Go 3.md"
               }
             }
           }
@@ -148,8 +148,9 @@
   },
   "active": "69d6ce065424f8f0",
   "lastOpenFiles": [
-    "3 ArdanLabs/Ultimate Go/Ultimate Go 1.md",
     "3 ArdanLabs/Ultimate Go/Ultimate Go 2.md",
+    "3 ArdanLabs/Ultimate Go/Ultimate Go 3.md",
+    "3 ArdanLabs/Ultimate Go/Ultimate Go 1.md",
     "3 ArdanLabs/Ultimate Go",
     "7 Marc Grabanski/Patterns for Reactivity with Modern Vanilla JS.md",
     "7 Corbin Crutchley/JS This.md",

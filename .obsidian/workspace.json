@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "3 ArdanLabs/Ultimate Go/Ultimate Go.md",
+                "file": "3 ArdanLabs/Ultimate Go/Ultimate Go 2.md",
                 "mode": "source",
                 "source": false
               }
@@ -48,7 +48,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "morton",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -65,8 +65,7 @@
               "state": {}
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -86,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "3 ArdanLabs/Ultimate Go/Ultimate Go.md",
+                "file": "3 ArdanLabs/Ultimate Go/Ultimate Go 2.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -103,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "3 ArdanLabs/Ultimate Go/Ultimate Go.md",
+                "file": "3 ArdanLabs/Ultimate Go/Ultimate Go 2.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -126,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "3 ArdanLabs/Ultimate Go/Ultimate Go.md"
+                "file": "3 ArdanLabs/Ultimate Go/Ultimate Go 2.md"
               }
             }
           }
@@ -147,8 +146,10 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "c3679c5b2161e3e7",
+  "active": "69d6ce065424f8f0",
   "lastOpenFiles": [
+    "3 ArdanLabs/Ultimate Go/Ultimate Go 1.md",
+    "3 ArdanLabs/Ultimate Go/Ultimate Go 2.md",
     "3 ArdanLabs/Ultimate Go",
     "7 Marc Grabanski/Patterns for Reactivity with Modern Vanilla JS.md",
     "7 Corbin Crutchley/JS This.md",

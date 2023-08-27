@@ -1,7 +1,4 @@
-
-### Ultimate Go
-
-- https://github.com/nathanjmorton/gotraining
+[course github repo](https://github.com/ardanlabs/gotraining.git)
 
 There are 2 Rules for types and their memory assignments in terms of the mechanical sympathy: 
 
